@@ -1,5 +1,4 @@
 /* Copyright (c) 2012, Code Aurora Forum. All rights reserved.
- * All Rights Reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -23,6 +22,20 @@
 
 #define DEF_TEMP_SENSOR      0
 
+//max thermal limit
+#define DEF_ALLOWED_MAX_HIGH 76
+#define DEF_ALLOWED_MAX_FREQ 384000
+
+//mid thermal limit
+#define DEF_ALLOWED_MID_HIGH 72
+#define DEF_ALLOWED_MID_FREQ 648000
+
+//low thermal limit
+#define DEF_ALLOWED_LOW_HIGH 70
+#define DEF_ALLOWED_LOW_FREQ 972000
+
+//Sampling interval
+#define DEF_THERMAL_CHECK_MS 1000
 
 static int enabled;
 
@@ -49,19 +62,19 @@ static struct msm_thermal_tuners {
 
 	unsigned int check_interval_ms;
 } msm_thermal_tuners_ins = {
-	.allowed_max_high = CONFIG_DEF_ALLOWED_MAX_HIGH,
-	.allowed_max_low = (CONFIG_DEF_ALLOWED_MAX_HIGH - 5),
-	.allowed_max_freq = CONFIG_DEF_ALLOWED_MAX_FREQ,
+	.allowed_max_high = DEF_ALLOWED_MAX_HIGH,
+	.allowed_max_low = (DEF_ALLOWED_MAX_HIGH - 5),
+	.allowed_max_freq = DEF_ALLOWED_MAX_FREQ,
 
-	.allowed_mid_high = CONFIG_DEF_ALLOWED_MID_HIGH,
-	.allowed_mid_low = (CONFIG_DEF_ALLOWED_MID_HIGH - 5),
-	.allowed_mid_freq = CONFIG_DEF_ALLOWED_MID_FREQ,
+	.allowed_mid_high = DEF_ALLOWED_MID_HIGH,
+	.allowed_mid_low = (DEF_ALLOWED_MID_HIGH - 5),
+	.allowed_mid_freq = DEF_ALLOWED_MID_FREQ,
 
-	.allowed_low_high = CONFIG_DEF_ALLOWED_LOW_HIGH,
-	.allowed_low_low = (CONFIG_DEF_ALLOWED_LOW_HIGH - 6),
-	.allowed_low_freq = CONFIG_DEF_ALLOWED_LOW_FREQ,
+	.allowed_low_high = DEF_ALLOWED_LOW_HIGH,
+	.allowed_low_low = (DEF_ALLOWED_LOW_HIGH - 6),
+	.allowed_low_freq = DEF_ALLOWED_LOW_FREQ,
 
-	.check_interval_ms = CONFIG_DEF_THERMAL_CHECK_MS,
+	.check_interval_ms = DEF_THERMAL_CHECK_MS,
 };
 
 static int update_cpu_max_freq(struct cpufreq_policy *cpu_policy,
@@ -78,7 +91,7 @@ static int update_cpu_max_freq(struct cpufreq_policy *cpu_policy,
 
 	ret = cpufreq_update_policy(cpu);
 	if (!ret)
-		pr_info("[BLACKOUT-THERM]: Limiting core%d max frequency to %d\n",
+		pr_info("msm_thermal: Limiting core%d max frequency to %d\n",
 			cpu, max_freq);
 
 	return ret;
@@ -97,7 +110,7 @@ static void check_temp(struct work_struct *work)
 	tsens_dev.sensor_num = DEF_TEMP_SENSOR;
 	ret = tsens_get_temp(&tsens_dev, &temp);
 	if (ret) {
-		pr_err("[BLACKOUT-THERM]: Unable to read TSENS sensor %d\n",
+		pr_err("msm_thermal: Unable to read TSENS sensor %d\n",
 				tsens_dev.sensor_num);
 		goto reschedule;
 	}
@@ -106,7 +119,7 @@ static void check_temp(struct work_struct *work)
 		update_policy = 0;
 		cpu_policy = cpufreq_cpu_get(cpu);
 		if (!cpu_policy) {
-			pr_debug("[BLACKOUT-THERM]: NULL policy on cpu %d\n", cpu);
+			pr_debug("msm_thermal: NULL policy on cpu %d\n", cpu);
 			continue;
 		}
 
@@ -119,7 +132,7 @@ static void check_temp(struct work_struct *work)
 			pre_throttled_max = cpu_policy->max;
 			max_freq = msm_thermal_tuners_ins.allowed_low_freq;
 			thermal_throttled = 1;
-			pr_warn("[BLACKOUT-THERM]: Thermal Throttled (low)! temp: %lu\n", temp);
+			pr_warn("msm_thermal: Thermal Throttled (low)! temp: %lu\n", temp);
 		//low clr point
 		} else if ((temp < msm_thermal_tuners_ins.allowed_low_low) &&
 			   (thermal_throttled > 0)) {
@@ -127,14 +140,14 @@ static void check_temp(struct work_struct *work)
 				if (pre_throttled_max != 0)
 					max_freq = pre_throttled_max;
 				else {
-					max_freq = cmdline_maxkhz;
-					pr_warn("[BLACKOUT-THERM]: ERROR! pre_throttled_max=0, falling back to %u\n", max_freq);
+					max_freq = 1566000;
+					pr_warn("msm_thermal: ERROR! pre_throttled_max=0, falling back to %u\n", max_freq);
 				}
 				update_policy = 1;
 				/* wait until 2nd core is unthrottled */
 				if (cpu == 1)
 					thermal_throttled = 0;
-				pr_warn("[BLACKOUT-THERM]: Low Thermal Throttling Ended! temp: %lu\n", temp);
+				pr_warn("msm_thermal: Low Thermal Throttling Ended! temp: %lu\n", temp);
 			}
 		//mid trip point
 		} else if ((temp >= msm_thermal_tuners_ins.allowed_low_high) &&
@@ -143,7 +156,7 @@ static void check_temp(struct work_struct *work)
 			update_policy = 1;
 			max_freq = msm_thermal_tuners_ins.allowed_low_freq;
 			thermal_throttled = 2;
-			pr_warn("[BLACKOUT-THERM]: Thermal Throttled (mid)! temp: %lu\n", temp);
+			pr_warn("msm_thermal: Thermal Throttled (mid)! temp: %lu\n", temp);
 		//mid clr point
 		} else if ( (temp < msm_thermal_tuners_ins.allowed_mid_low) &&
 			   (thermal_throttled > 1)) {
@@ -153,7 +166,7 @@ static void check_temp(struct work_struct *work)
 				/* wait until 2nd core is unthrottled */
 				if (cpu == 1)
 					thermal_throttled = 1;
-				pr_warn("[BLACKOUT-THERM]: Mid Thermal Throttling Ended! temp: %lu\n", temp);
+				pr_warn("msm_thermal: Mid Thermal Throttling Ended! temp: %lu\n", temp);
 			}
 		//max trip point
 		} else if ((temp >= msm_thermal_tuners_ins.allowed_max_high) &&
@@ -161,7 +174,7 @@ static void check_temp(struct work_struct *work)
 			update_policy = 1;
 			max_freq = msm_thermal_tuners_ins.allowed_max_freq;
 			thermal_throttled = 3;
-			pr_warn("[BLACKOUT-THERM]: Thermal Throttled (max)! temp: %lu\n", temp);
+			pr_warn("msm_thermal: Thermal Throttled (max)! temp: %lu\n", temp);
 		//max clr point
 		} else if ((temp < msm_thermal_tuners_ins.allowed_max_low) &&
 			   (thermal_throttled > 2)) {
@@ -171,7 +184,7 @@ static void check_temp(struct work_struct *work)
 				/* wait until 2nd core is unthrottled */
 				if (cpu == 1)
 					thermal_throttled = 2;
-				pr_warn("[BLACKOUT-THERM]: Max Thermal Throttling Ended! temp: %lu\n", temp);
+				pr_warn("msm_thermal: Max Thermal Throttling Ended! temp: %lu\n", temp);
 			}
 		}
 
@@ -216,9 +229,9 @@ static int set_enabled(const char *val, const struct kernel_param *kp)
 	if (!enabled)
 		disable_msm_thermal();
 	else
-		pr_info("[BLACKOUT-THERM]: no action for enabled = %d\n", enabled);
+		pr_info("msm_thermal: no action for enabled = %d\n", enabled);
 
-	pr_info("[BLACKOUT-THERM]: enabled = %d\n", enabled);
+	pr_info("msm_thermal: enabled = %d\n", enabled);
 
 	return ret;
 }
