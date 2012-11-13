@@ -78,7 +78,7 @@ static int update_cpu_max_freq(struct cpufreq_policy *cpu_policy,
 
 	ret = cpufreq_update_policy(cpu);
 	if (!ret)
-		pr_info("[AnthraX-THERM]: Limiting core%d max frequency to %d\n",
+		pr_info("[BLACKOUT-THERM]: Limiting core%d max frequency to %d\n",
 			cpu, max_freq);
 
 	return ret;
@@ -97,7 +97,7 @@ static void check_temp(struct work_struct *work)
 	tsens_dev.sensor_num = DEF_TEMP_SENSOR;
 	ret = tsens_get_temp(&tsens_dev, &temp);
 	if (ret) {
-		pr_err("[AnthraX-THERM]: Unable to read TSENS sensor %d\n",
+		pr_err("[BLACKOUT-THERM]: Unable to read TSENS sensor %d\n",
 				tsens_dev.sensor_num);
 		goto reschedule;
 	}
@@ -106,7 +106,7 @@ static void check_temp(struct work_struct *work)
 		update_policy = 0;
 		cpu_policy = cpufreq_cpu_get(cpu);
 		if (!cpu_policy) {
-			pr_debug("[AnthraX-THERM]: NULL policy on cpu %d\n", cpu);
+			pr_debug("[BLACKOUT-THERM]: NULL policy on cpu %d\n", cpu);
 			continue;
 		}
 
@@ -119,7 +119,7 @@ static void check_temp(struct work_struct *work)
 			pre_throttled_max = cpu_policy->max;
 			max_freq = msm_thermal_tuners_ins.allowed_low_freq;
 			thermal_throttled = 1;
-			pr_warn("[AnthraX-THERM]: Thermal Throttled (low)! temp: %lu\n", temp);
+			pr_warn("[BLACKOUT-THERM]: Thermal Throttled (low)! temp: %lu\n", temp);
 		//low clr point
 		} else if ((temp < msm_thermal_tuners_ins.allowed_low_low) &&
 			   (thermal_throttled > 0)) {
@@ -128,13 +128,13 @@ static void check_temp(struct work_struct *work)
 					max_freq = pre_throttled_max;
 				else {
 					max_freq = cmdline_maxkhz;
-					pr_warn("[AnthraX-THERM]: ERROR! pre_throttled_max=0, falling back to %u\n", max_freq);
+					pr_warn("[BLACKOUT-THERM]: ERROR! pre_throttled_max=0, falling back to %u\n", max_freq);
 				}
 				update_policy = 1;
 				/* wait until 2nd core is unthrottled */
 				if (cpu == 1)
 					thermal_throttled = 0;
-				pr_warn("[AnthraX-THERM]: Low Thermal Throttling Ended! temp: %lu\n", temp);
+				pr_warn("[BLACKOUT-THERM]: Low Thermal Throttling Ended! temp: %lu\n", temp);
 			}
 		//mid trip point
 		} else if ((temp >= msm_thermal_tuners_ins.allowed_low_high) &&
@@ -143,7 +143,7 @@ static void check_temp(struct work_struct *work)
 			update_policy = 1;
 			max_freq = msm_thermal_tuners_ins.allowed_low_freq;
 			thermal_throttled = 2;
-			pr_warn("[AnthraX-THERM]: Thermal Throttled (mid)! temp: %lu\n", temp);
+			pr_warn("[BLACKOUT-THERM]: Thermal Throttled (mid)! temp: %lu\n", temp);
 		//mid clr point
 		} else if ( (temp < msm_thermal_tuners_ins.allowed_mid_low) &&
 			   (thermal_throttled > 1)) {
@@ -153,7 +153,7 @@ static void check_temp(struct work_struct *work)
 				/* wait until 2nd core is unthrottled */
 				if (cpu == 1)
 					thermal_throttled = 1;
-				pr_warn("[AnthraX-THERM]: Mid Thermal Throttling Ended! temp: %lu\n", temp);
+				pr_warn("[BLACKOUT-THERM]: Mid Thermal Throttling Ended! temp: %lu\n", temp);
 			}
 		//max trip point
 		} else if ((temp >= msm_thermal_tuners_ins.allowed_max_high) &&
@@ -161,7 +161,7 @@ static void check_temp(struct work_struct *work)
 			update_policy = 1;
 			max_freq = msm_thermal_tuners_ins.allowed_max_freq;
 			thermal_throttled = 3;
-			pr_warn("[AnthraX-THERM]: Thermal Throttled (max)! temp: %lu\n", temp);
+			pr_warn("[BLACKOUT-THERM]: Thermal Throttled (max)! temp: %lu\n", temp);
 		//max clr point
 		} else if ((temp < msm_thermal_tuners_ins.allowed_max_low) &&
 			   (thermal_throttled > 2)) {
@@ -171,7 +171,7 @@ static void check_temp(struct work_struct *work)
 				/* wait until 2nd core is unthrottled */
 				if (cpu == 1)
 					thermal_throttled = 2;
-				pr_warn("[AnthraX-THERM]: Max Thermal Throttling Ended! temp: %lu\n", temp);
+				pr_warn("[BLACKOUT-THERM]: Max Thermal Throttling Ended! temp: %lu\n", temp);
 			}
 		}
 
@@ -216,9 +216,9 @@ static int set_enabled(const char *val, const struct kernel_param *kp)
 	if (!enabled)
 		disable_msm_thermal();
 	else
-		pr_info("[AnthraX-THERM]: no action for enabled = %d\n", enabled);
+		pr_info("[BLACKOUT-THERM]: no action for enabled = %d\n", enabled);
 
-	pr_info("[AnthraX-THERM]: enabled = %d\n", enabled);
+	pr_info("[BLACKOUT-THERM]: enabled = %d\n", enabled);
 
 	return ret;
 }
