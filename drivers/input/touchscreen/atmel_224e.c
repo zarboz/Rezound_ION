@@ -1311,17 +1311,17 @@ static void multi_input_report(struct atmel_ts_data *ts)
                                     (ts->finger_data[loop_i].x > nextx) &&
                                     ( ts->finger_data[loop_i].y > 1865))) {
                                         prevx = 680;
-                                        nextx = 340;
+                                        nextx = 410;
                                        barrier[0] = true;
                                         if ((barrier[1] == true) ||
                                            ((ts->finger_data[loop_i].x < prevx) &&
                                             (ts->finger_data[loop_i].x > nextx) &&
                                             (ts->finger_data[loop_i].y > 1865))) {
-                                                prevx = 340;
+                                                prevx = 410;
                                                 barrier[1] = true;
                                                 if ((ts->finger_data[loop_i].x < prevx) &&
                                                     (ts->finger_data[loop_i].y > 1865)) {
-                                                        if (ts->finger_data[loop_i].x < 330) {
+                                                        if (ts->finger_data[loop_i].x < 410) {
                                                                 if (exec_count) {
                                                                         printk(KERN_INFO "[sweep2wake]: OFF");
                                                                         sweep2wake_pwrtrigger();
