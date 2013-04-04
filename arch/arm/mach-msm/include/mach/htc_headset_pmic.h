@@ -98,6 +98,7 @@ struct htc_35mm_pmic_info {
 	/*20120119: Add by Jacky for debug use */
 	struct class* htc_accessory_class;
 	struct device* pmic_dev;
+	struct hrtimer timer;
 };
 
 #endif

@@ -70,6 +70,8 @@
 #include <mach/msm_serial_hs_lite.h>
 #include <mach/msm_iomap.h>
 #include <mach/msm_memtypes.h>
+#include <linux/ion.h>
+#include <mach/ion.h>
 #include <asm/mach/mmc.h>
 #include <mach/htc_battery_8x60.h>
 #include <linux/tps65200.h>
