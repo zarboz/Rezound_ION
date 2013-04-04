@@ -2192,7 +2192,7 @@ int mdp4_overlay_unset(struct fb_info *info, int ndx)
 				mdp4_overlay_dsi_video_vsync_push(mfd, pipe);
 				pipe->flags = flags;
 			}
-// 			mdp4_dsi_overlay_video_blt_stop(mfd);
+			mdp4_dsi_overlay_video_blt_stop(mfd);
 		}
 #else
 		if (ctrl->panel_mode & MDP4_PANEL_MDDI) {

@@ -343,7 +343,7 @@ struct mdp4_statistic {
 	ulong err_format;
 };
 
-
+#ifdef CONFIG_FB_MSM_OVERLAY_WRITEBACK
 #include <mach/debug_display.h>
 static inline int mdp4_overlay_writeback_setup(struct fb_info *fbi,
 		struct mdp4_overlay_pipe *pipe, uint8 *buf, int bpp)
@@ -367,7 +367,13 @@ static inline int mdp4_overlay_writeback_setup(struct fb_info *fbi,
 	return off;
 
 }
-
+#else
+static inline int mdp4_overlay_writeback_setup(struct fb_info *fbi,
+		struct mdp4_overlay_pipe *pipe, uint8 *buf, int bpp)
+{
+	return 0;
+}
+#endif
 
 void mdp4_sw_reset(unsigned long bits);
 void mdp4_display_intf_sel(int output, unsigned long intf);
@@ -493,7 +499,7 @@ int mdp4_overlay_blt_offset(struct fb_info *info,
 int mdp4_dsi_overlay_blt_start(struct msm_fb_data_type *mfd);
 int mdp4_dsi_overlay_blt_stop(struct msm_fb_data_type *mfd);
 int mdp4_dsi_overlay_video_blt_start(struct msm_fb_data_type *mfd);
-// int mdp4_dsi_overlay_video_blt_stop(struct msm_fb_data_type *mfd);
+int mdp4_dsi_overlay_video_blt_stop(struct msm_fb_data_type *mfd);
 
 
 #ifdef CONFIG_FB_MSM_MIPI_DSI
