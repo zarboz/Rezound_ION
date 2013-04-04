@@ -343,8 +343,8 @@ static void mhl_sii9234_1v2_power(bool enable);
 
 int __init vigor_init_panel(struct resource *res, size_t size);
 #ifdef CONFIG_ION_MSM
-int __init pyramid_ion_reserve_memory(struct memtype_reserve *table);
-int __init pyramid_ion_init(void);
+int __init vigor_ion_reserve_memory(struct memtype_reserve *table);
+int __init vigor_ion_init(void);
 #endif
 #ifdef CONFIG_CPU_FREQ_GOV_ONDEMAND_2_PHASE
 int set_two_phase_freq(int cpufreq);
