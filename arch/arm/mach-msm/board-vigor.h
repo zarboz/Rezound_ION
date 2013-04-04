@@ -24,50 +24,9 @@
 #define MSM_RAM_CONSOLE_BASE	MSM_HTC_RAM_CONSOLE_PHYS
 #define MSM_RAM_CONSOLE_SIZE	MSM_HTC_RAM_CONSOLE_SIZE
 
-#if defined(CONFIG_CRYPTO_DEV_QCRYPTO) || \
-		defined(CONFIG_CRYPTO_DEV_QCRYPTO_MODULE) || \
-		defined(CONFIG_CRYPTO_DEV_QCEDEV) || \
-		defined(CONFIG_CRYPTO_DEV_QCEDEV_MODULE)
-#define QCE_SIZE		0x10000
-#define QCE_0_BASE		0x18500000
-#endif
-
-// #ifdef CONFIG_FB_MSM_TRIPLE_BUFFER
-// #define MSM_FB_PRIM_BUF_SIZE (1280 * ALIGN(720, 32) * 4 * 3) /* 4 bpp x 3 pages */
-// #else
-// #define MSM_FB_PRIM_BUF_SIZE (1280 * ALIGN(720, 32) * 4 * 2) /* 4 bpp x 2 pages */
-// #endif
-
-#ifdef CONFIG_FB_MSM_HDMI_MSM_PANEL
-#define MSM_FB_EXT_BUF_SIZE  (1920 * 1080 * 2 * 1) /* 2 bpp x 1 page */
-#else
-#define MSM_FB_EXT_BUFT_SIZE	0
-#endif
-
-#ifdef CONFIG_FB_MSM_OVERLAY_WRITEBACK
-/* width x height x 3 bpp x 2 frame buffer */
-#define MSM_FB_WRITEBACK_SIZE roundup(1280 * ALIGN(720, 32) * 3 * 2, 4096)
-#define MSM_FB_WRITEBACK_OFFSET 0
-#else
-#define MSM_FB_WRITEBACK_SIZE	0
-#define MSM_FB_WRITEBACK_OFFSET 0
-#endif
-
-#define MSM_FB_WRITEBACK_BASE 0x46C00000
-
-// /* Note: must be multiple of 4096 */
-// #define MSM_FB_SIZE roundup(MSM_FB_PRIM_BUF_SIZE + MSM_FB_EXT_BUF_SIZE, 4096)
-
-// #define MSM_FB_BASE			0x40400000
-
-#define MSM_SMI_BASE          0x38000000
-#define MSM_SMI_SIZE          0x4000000
-
-// #define PHY_BASE_ADDR1  0x48000000
-// #define SIZE_ADDR1      0x28000000
-
 /* GPIO definition */
 #define PMGPIO(x)	(x-1)
+#define VIGOR_AUD_HP_EN          PMGPIO(18)
 
 /* Direct Keys */
 #define VIGOR_GPIO_KEY_VOL_DOWN	(103)
@@ -197,20 +156,6 @@
 /* PMIC */
 /* PMIC GPIO definition */
 #define PMGPIO(x) (x-1)
-#define VIGOR_VOL_UP             PMGPIO(16)
-#define VIGOR_VOL_DN             PMGPIO(17)
-#define VIGOR_AUD_HP_EN          PMGPIO(18)
-#define VIGOR_HAP_ENABLE         PMGPIO(19)
-#define VIGOR_AUD_QTR_RESET      PMGPIO(21)
-#define VIGOR_TP_RST             PMGPIO(23)
-#define VIGOR_GREEN_LED          PMGPIO(24)
-#define VIGOR_AMBER_LED          PMGPIO(25)
-// #define VIGOR_AUD_MIC_SEL        PMGPIO(26)
-#define VIGOR_CHG_STAT	   PMGPIO(33)
-#define VIGOR_SDC3_DET           PMGPIO(34)
-#define VIGOR_PLS_INT            PMGPIO(35)
-// #define VIGOR_AUD_REMO_PRES      PMGPIO(37)
-#define VIGOR_WIFI_BT_SLEEP_CLK  PMGPIO(38)
 
 /* USB SW */
 #define VIGOR_MHLAUD_USBz_SW		PMGPIO(1)
@@ -227,7 +172,7 @@
 #define VIGOR_AUD_REC_EN		PMGPIO(19)
 #define VIGOR_AUD_QTR_RESET	  PMGPIO(21)
 #define VIGOR_AUD_MIC_SEL		PMGPIO(37)
-#define VIGOR_AUD_CODEC_RST        (67)
+
 /* TP */
 #define VIGOR_TP_RST			 PMGPIO(23)
 

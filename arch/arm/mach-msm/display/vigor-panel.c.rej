@@ -1,0 +1,11 @@
+--- arch/arm/mach-msm/display/vigor-panel.c	2013-04-03 18:03:02.795382964 -0700
++++ arch/arm/mach-msm/display/vigor-panel.c	2013-04-03 18:03:21.375437545 -0700
+@@ -34,7 +34,7 @@
+ #include "../devices.h"
+ #include "../board-vigor.h"
+ #include "../devices-msm8x60.h"
+-#include "../../../../drivers/video/msm_8x60/mdp_hw.h"
++#include "../../../../drivers/video/msm/mdp_hw.h"
+ #if defined (CONFIG_FB_MSM_MDP_ABL)
+ #include <linux/fb.h>
+ #endif

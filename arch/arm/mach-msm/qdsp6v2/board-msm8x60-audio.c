@@ -1340,7 +1340,7 @@ static struct platform_device *snd_devices_common[] __initdata = {
 	&msm_uplink_rx_device,
 };
 
-static struct platform_device *snd_devices_vigor[] __initdata = {
+static struct platform_device *snd_devices_pyramid[] __initdata = {
 	&msm_iearpiece_device,
 	&msm_imic_device,
 	&msm_ispkr_stereo_device,
@@ -1400,7 +1400,7 @@ void __init msm_snddev_init(void)
 
 	atomic_set(&preg_ref_cnt, 0);
 
-	platform_add_devices(snd_devices_vigor, ARRAY_SIZE(snd_devices_vigor));
+	platform_add_devices(snd_devices_pyramid, ARRAY_SIZE(snd_devices_pyramid));
 
 	for (i = 0, dev_id = 0; i < ARRAY_SIZE(snd_devices_common); i++)
 		snd_devices_common[i]->id = dev_id++;
