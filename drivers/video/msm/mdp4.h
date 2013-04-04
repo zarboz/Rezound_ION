@@ -493,7 +493,7 @@ int mdp4_overlay_blt_offset(struct fb_info *info,
 int mdp4_dsi_overlay_blt_start(struct msm_fb_data_type *mfd);
 int mdp4_dsi_overlay_blt_stop(struct msm_fb_data_type *mfd);
 int mdp4_dsi_overlay_video_blt_start(struct msm_fb_data_type *mfd);
-int mdp4_dsi_overlay_video_blt_stop(struct msm_fb_data_type *mfd);
+// int mdp4_dsi_overlay_video_blt_stop(struct msm_fb_data_type *mfd);
 
 
 #ifdef CONFIG_FB_MSM_MIPI_DSI
