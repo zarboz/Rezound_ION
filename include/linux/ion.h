@@ -66,7 +66,7 @@ enum ion_heap_ids {
 	ION_HEAP_SYSTEM_ID = -1, /* depreciated */
 	ION_HEAP_SYSTEM_CONTIG_ID = -1, /* depreciated ID */
 	ION_HEAP_SMI_ID = -1, /* depreciated ID */
-	ION_HEAP_AUDIO_ID = -1, /* depreciated ID */
+	ION_HEAP_AUDIO_ID = 28, /* depreciated ID */
 	ION_HEAP_ADSP2_ID = -1, /* depreciated ID */
 
 	INVALID_HEAP_ID = -1,

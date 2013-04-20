@@ -26,18 +26,19 @@ extern void pmem_release_smi_region(void *data);
 extern void *pmem_setup_smi_region(void);
 
 #define MSM_ION_CAMERA_BASE   0x40E00000
-#define MSM_ION_AUDIO_BASE    0x6FB00000
+#define MSM_ION_AUDIO_BASE    (0x7FB00000)
 
-#define MSM_ION_ROTATOR_SIZE  0x654000
-#define MSM_ION_MM_FW_SIZE    0x200000
-#define MSM_ION_MM_SIZE		0x4700000
-#define MSM_ION_MFC_SIZE      0x100000
-#define MSM_ION_CAMERA_SIZE   0x2000000
-#define MSM_ION_SF_SIZE       0x4000000
-#define MSM_ION_AUDIO_SIZE	  0x4CF000
+#define MSM_ION_ROTATOR_SIZE  0x5C00000
+#define MSM_ION_MM_FW_SIZE    0x2C00000
+#define MSM_ION_MM_SIZE		0x9200000
+#define MSM_ION_MFC_SIZE      0x1000000
+#define MSM_ION_CAMERA_SIZE   0x20000000
+#define MSM_ION_SF_SIZE       0x20000000
+#define MSM_ION_AUDIO_SIZE	MSM_PMEM_AUDIO_SIZE
+#define MSM_PMEM_AUDIO_SIZE	0x4CF000
 
 #ifdef CONFIG_TZCOM
-#define MSM_ION_QSECOM_SIZE	0x100000 
+#define MSM_ION_QSECOM_SIZE	0x200000 
 #define MSM_ION_HEAP_NUM      9
 #else
 #define MSM_ION_HEAP_NUM      8
@@ -166,7 +167,7 @@ static struct platform_device ion_dev = {
 	.dev = { .platform_data = &ion_pdata },
 };
 
-int __init vigor_ion_reserve_memory(struct memtype_reserve *table) {
+extern int __init vigor_ion_reserve_memory(struct memtype_reserve *table) {
 	table[MEMTYPE_SMI].size += MSM_ION_MM_FW_SIZE;
 	table[MEMTYPE_SMI].size += MSM_ION_MM_SIZE;
 	table[MEMTYPE_SMI].size += MSM_ION_MFC_SIZE;

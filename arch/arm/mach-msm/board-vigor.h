@@ -12,6 +12,9 @@
  * GNU General Public License for more details.
  */
 
+
+#define MSM_PMEM_AUDIO_SIZE	0x239000
+
 #ifndef __ARCH_ARM_MACH_MSM_BOARD_VIGOR_H
 #define __ARCH_ARM_MACH_MSM_BOARD_VIGOR_H
 
@@ -172,6 +175,7 @@
 #define VIGOR_AUD_REC_EN		PMGPIO(19)
 #define VIGOR_AUD_QTR_RESET	  PMGPIO(21)
 #define VIGOR_AUD_MIC_SEL		PMGPIO(37)
+#define VIGOR_AUD_CODEC_RST        (67)
 
 /* TP */
 #define VIGOR_TP_RST			 PMGPIO(23)
