@@ -167,7 +167,7 @@ obj-$(CONFIG_MSM7KV2_AUDIO) += qdsp5v2_2x/
 obj-$(CONFIG_MSM7KV2_AUDIO) += htc_acoustic_7x30.o htc_acdb_7x30.o
 
 obj-$(CONFIG_MSM_QDSP6) += qdsp6/
-obj-$(CONFIG_MSM8X60_AUDIO) += qdsp6v2/
+obj-$(CONFIG_MSM8X60_AUDIO) += qdsp6v2_1x/
 obj-$(CONFIG_MSM_AUDIO_QDSP6) += qdsp6v2/
 obj-$(CONFIG_MSM_HW3D) += hw3d.o
 ifdef CONFIG_PM
@@ -412,7 +412,7 @@ obj-$(CONFIG_MACH_HOLIDAY) += board-holiday-audio.o
 obj-$(CONFIG_MACH_HOLIDAY) += board-holiday-keypad.o
 obj-$(CONFIG_MACH_HOLIDAY) += htc_bdaddress.o htc_sleep_clk.o board-holiday-rfkill.o htc_fmtx_rfkill.o htc_util.o
 obj-$(CONFIG_MACH_HOLIDAY) += board-holiday-mmc.o board-holiday-wifi.o
-obj-$(CONFIG_MACH_VIGOR) += board-vigor.o mdm.o board-vigor-ion.o
+obj-$(CONFIG_MACH_VIGOR) += board-vigor.o mdm.o 
 obj-$(CONFIG_MACH_VIGOR) += board-vigor-audio.o
 obj-$(CONFIG_MACH_VIGOR) += board-vigor-keypad.o
 obj-$(CONFIG_MACH_VIGOR) += htc_bdaddress.o htc_sleep_clk.o board-vigor-rfkill.o htc_fmtx_rfkill.o htc_util.o
